@@ -1,44 +1,37 @@
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        
-        String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
-        
+
+        // String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
+        String url = "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&start_date=2023-04-01&end_date=2023-04-03";
+        // busca dados com o clienteHttp
         var http = new ClienteHttp();
         String json = http.buscaDados(url);
 
         // extrair so os dados que interessam ( titulo, poster, classificação)
-        var parser = new JsonParser();
-        List<Map<String, String>> listaDeConteudo = parser.parse(json);
+        // var extratorDoImDb = new ExtratorDeConteudoDoImDb();
+        var extratorNasa = new ExtratorDeConteudoDaNasa();
+
+        // List<Conteudo> conteudos = extratorDoImDb.extraConteudos(json);
+        List<Conteudo> conteudos = extratorNasa.extraConteudos(json);
 
         // exibir os dados
-        
-        for (Map<String,String> conteudo : listaDeConteudo) {
-            System.out.println("Titulo: " + conteudo.get("title"));
+        var gerador = new geradorDeFIgurinhas();
 
-            String urlImage = conteudo.get("image");
-            InputStream inputStream = new URL(urlImage).openStream();
+        for (int i = 0; i < conteudos.size(); i++) {
+            Conteudo conteudo = conteudos.get(i);
 
-            String nomeArquivo = conteudo.get("title") + ".png";
-            var geradora = new geradorDeFIgurinhas();
-
-            geradora.cria(inputStream, nomeArquivo);
-
-            double rating = Double.parseDouble(conteudo.get("imDbRating"));
+            InputStream inputStream = new URL(conteudo.getUrlImage()).openStream();
+            String nomeArquivo = conteudo.getTitulo() + ".png";
             
-            int stars = (int) rating;
-            System.out.print("Rating: ");
-            for (int i = 0; i < stars; i++) {
-               System.out.print("🌟"); 
-            }
+            gerador.cria(inputStream, nomeArquivo);
 
-            System.out.print("(" + conteudo.get("imDbRating") + ")");
-
+            System.out.println("Titulo:" + conteudo.getTitulo());
             System.out.println();
         }
+
     }
 }

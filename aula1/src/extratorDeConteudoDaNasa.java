@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class extratorDeConteudoDaNasa {
+public class ExtratorDeConteudoDaNasa {
   public List<Conteudo> extraConteudos(String json){
     
     var parser = new JsonParser();

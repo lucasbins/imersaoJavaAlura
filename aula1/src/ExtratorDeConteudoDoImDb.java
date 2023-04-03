@@ -12,7 +12,7 @@ public class ExtratorDeConteudoDoImDb {
 
     for (Map<String, String> atributos : listaDeAtributos) {
       String titulo = atributos.get("title");
-      String urlImage = atributos.get("url");
+      String urlImage = atributos.get("image");
       var conteudo = new Conteudo(titulo,urlImage);
 
       conteudos.add(conteudo);

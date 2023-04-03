@@ -32,11 +32,10 @@ public class geradorDeFIgurinhas {
     graphics.setFont(fonte);
 
     //escrever na nova imagem
-    graphics.drawString("Baita Filme", largura / 2 - 400 , novaAltura - 50);
-
-
+    graphics.drawString("Top", largura / 2 - 200 , novaAltura - 50);
+    String novoNome = nomeArquivo.replace(':', '-');
     //transformar a nova imagem em um arquivo
-    ImageIO.write(novaImage, "png", new File("saida/" + nomeArquivo));
+    ImageIO.write(novaImage, "png", new File("saida/" + novoNome));
 
   }
 }
